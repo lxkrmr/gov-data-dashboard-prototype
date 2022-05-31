@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>Dashboard: Data sets by federal ministries</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+<script>
+  fetch('http://localhost:8080/api/v1/federal-ministry-dashboard')
+    .then(response => response.json())
+    .then(responseData => {
+      const displayNames = responseData.federalMinistryStatistics.map(statistics => statistics.federalMinistry.displayName);
+      const numberOfPublishedDataSets = responseData.federalMinistryStatistics.map(statistics => statistics.numberOfPublishedDataSets.value);
+
+      const data = {
+        labels: displayNames,
+        datasets: [{
+          label: 'Number of published data sets to GovData by federal ministry',
+          backgroundColor: 'rgb(255, 99, 132)',
+          borderColor: 'rgb(255, 99, 132)',
+          data: numberOfPublishedDataSets,
+        }]
+      };
+
+      const config = {
+        type: 'bar',
+        data: data,
+        options: {
+          indexAxis: 'y',
+        }
+      };
+
+      const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+      );
+    }
+  );
+</script>
+</body>
+</html>

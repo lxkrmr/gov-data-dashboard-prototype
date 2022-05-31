@@ -1,0 +1,34 @@
+federal-ministries:
+  whitelist:
+    - "auswaertiges-amt"
+    - "dpma"
+    - "bundesamt-fur-justiz"
+    - "bmf"
+    - "bzst"
+    - "zoll"
+    - "itzbund"
+    - "bmvg"
+    - "bmi"
+    - "bbsr"
+    - "badv"
+    - "bva"
+    - "statistisches-bundesamt"
+    - "bmas"
+    - "baua"
+    - "bundesministerium-fur-bildung-und-forschung"
+    - "bmfsfj"
+    - "bmz"
+    - "bmwi"
+    - "bafa"
+    - "bam"
+    - "bmel"
+    - "bvl"
+    - "bsa"
+    - "mri"
+    - "mcloud"
+
+govdata.baseurl: "https://www.govdata.de/ckan/api/3/action"
+
+
+
+
