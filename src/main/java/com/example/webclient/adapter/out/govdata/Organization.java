@@ -1,4 +1,4 @@
-package com.example.webclient.domain;
+package com.example.webclient.adapter.out.govdata;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 

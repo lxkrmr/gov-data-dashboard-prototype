@@ -31,6 +31,6 @@ http://localhost:8080/
 
 http://localhost:8080/api/v1/federal-ministry-dashboard
 
-or (c) check out the list of all organizations from gov data (not only felder ministries)
+or (c) check out the list of all govDataResponse from gov data (not only felder ministries)
 
-http://localhost:8080/api/v1/organizations
+http://localhost:8080/api/v1/govDataResponse

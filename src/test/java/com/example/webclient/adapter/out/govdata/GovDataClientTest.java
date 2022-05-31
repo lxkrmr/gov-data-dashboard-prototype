@@ -1,7 +1,5 @@
 package com.example.webclient.adapter.out.govdata;
 
-import com.example.webclient.domain.Organization;
-import com.example.webclient.domain.Organizations;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
@@ -20,10 +18,10 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class GovDataRepositoryTest {
+class GovDataClientTest {
 
     private static MockWebServer mockWebServer;
-    private GovDataRepository govDataRepository;
+    private GovDataClient govDataClient;
 
     @BeforeAll
     static void beforeAll() throws IOException {
@@ -38,22 +36,22 @@ class GovDataRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        govDataRepository = new GovDataRepository(WebClient.builder(),
-                                                  mockWebServer.url("/")
-                                                               .url()
-                                                               .toString());
+        govDataClient = new GovDataClient(WebClient.builder(),
+                                          mockWebServer.url("/")
+                                                       .url()
+                                                       .toString());
     }
 
     @Test
-    void makesTheCorrectRequest() throws InterruptedException {
+    void shouldMakeCorrectRequest() throws InterruptedException {
         // given
         mockWebServer.enqueue(new MockResponse().setResponseCode(200)
                                                 .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                                                 .setBody(givenExampleResponse()));
 
         // when
-        govDataRepository.load()
-                         .block();
+        govDataClient.getOrganizations()
+                     .block();
         RecordedRequest result = mockWebServer.takeRequest();
 
         // then
@@ -62,14 +60,14 @@ class GovDataRepositoryTest {
     }
 
     @Test
-    void handlesTheResponse() {
+    void shouldHandleTheResponse() {
         // given
         mockWebServer.enqueue(new MockResponse().setResponseCode(200)
                                                 .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                                                 .setBody(givenExampleResponse()));
 
         // when
-        Mono<Organizations> result = govDataRepository.load();
+        Mono<GovDataResponse> result = govDataClient.getOrganizations();
 
         // then
         StepVerifier.create(result)
@@ -84,12 +82,12 @@ class GovDataRepositoryTest {
     }
 
     @Test
-    void exchangeClientError() {
+    void shouldThrowClientClientError() {
         // given
         mockWebServer.enqueue(new MockResponse().setResponseCode(400));
 
         // when
-        Mono<Organizations> result = govDataRepository.load();
+        Mono<GovDataResponse> result = govDataClient.getOrganizations();
 
         // then
         StepVerifier.create(result)
@@ -100,19 +98,18 @@ class GovDataRepositoryTest {
     }
 
     @Test
-    void exchangeServerError() {
+    void shouldThrowServerError() {
         // given
         mockWebServer.enqueue(new MockResponse().setResponseCode(500));
 
         // when
-        Mono<Organizations> result = govDataRepository.load();
+        Mono<GovDataResponse> result = govDataClient.getOrganizations();
 
         // then
         StepVerifier.create(result)
                     .expectErrorSatisfies(throwable -> assertThat(throwable).isExactlyInstanceOf(WebClientResponseException.InternalServerError.class)
                                                                             .hasMessageStartingWith("500 Internal Server Error"))
                     .verify();
-
     }
 
     private String givenExampleResponse() {

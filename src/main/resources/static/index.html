@@ -11,8 +11,8 @@
   fetch('http://localhost:8080/api/v1/federal-ministry-dashboard')
     .then(response => response.json())
     .then(responseData => {
-      const displayNames = responseData.federalMinistryStatistics.map(statistics => statistics.federalMinistry.displayName);
-      const numberOfPublishedDataSets = responseData.federalMinistryStatistics.map(statistics => statistics.numberOfPublishedDataSets.value);
+      const displayNames = responseData.statistics.map(statistics => statistics.displayName);
+      const numberOfPublishedDataSets = responseData.statistics.map(statistics => statistics.numberOfPublishedDataSets);
 
       const data = {
         labels: displayNames,
