@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -78,8 +79,40 @@ class GovDataRepositoryTest {
                                                                                    new Organization("Berlin Open Data",
                                                                                                     "berlin-open-data",
                                                                                                     1291
-                                                                                                    )))
+                                                                                   )))
                     .verifyComplete();
+    }
+
+    @Test
+    void exchangeClientError() {
+        // given
+        mockWebServer.enqueue(new MockResponse().setResponseCode(400));
+
+        // when
+        Mono<Organizations> result = govDataRepository.load();
+
+        // then
+        StepVerifier.create(result)
+                    .expectErrorSatisfies(throwable -> assertThat(throwable).isExactlyInstanceOf(WebClientResponseException.BadRequest.class)
+                                                                            .hasMessageStartingWith("400 Bad Request"))
+                    .verify();
+
+    }
+
+    @Test
+    void exchangeServerError() {
+        // given
+        mockWebServer.enqueue(new MockResponse().setResponseCode(500));
+
+        // when
+        Mono<Organizations> result = govDataRepository.load();
+
+        // then
+        StepVerifier.create(result)
+                    .expectErrorSatisfies(throwable -> assertThat(throwable).isExactlyInstanceOf(WebClientResponseException.InternalServerError.class)
+                                                                            .hasMessageStartingWith("500 Internal Server Error"))
+                    .verify();
+
     }
 
     private String givenExampleResponse() {
