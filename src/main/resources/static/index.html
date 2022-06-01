@@ -5,7 +5,8 @@
 </head>
 <body>
 <div>
-    <canvas id="myChart"></canvas>
+    <canvas id="all"></canvas>
+    <canvas id="foo"></canvas>
 </div>
 <script>
   fetch('http://localhost:8080/api/v1/federal-ministry-dashboard')
@@ -32,8 +33,13 @@
         }
       };
 
-      const myChart = new Chart(
-        document.getElementById('myChart'),
+      const all = new Chart(
+        document.getElementById('all'),
+        config
+      );
+
+      const foo = new Chart(
+        document.getElementById('foo'),
         config
       );
     }

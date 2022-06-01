@@ -1,7 +1,7 @@
 package com.example.webclient.adapter.in.web;
 
-import com.example.webclient.application.in.ShowFederalMinistryDashboardUseCase;
-import com.example.webclient.domain.FederalMinistryDashboard;
+import com.example.webclient.application.port.in.ShowFederalMinistryDashboardUseCase;
+import com.example.webclient.domain.FederalMinistryDepartments;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -16,7 +16,7 @@ public class FederalMinistryController {
     }
 
     @GetMapping("/api/v1/federal-ministry-dashboard")
-    public Mono<FederalMinistryDashboard> loadDashboard() {
+    public Mono<FederalMinistryDepartments> loadDashboard() {
         return showFederalMinistryDashboardUseCase.show();
     }
 }

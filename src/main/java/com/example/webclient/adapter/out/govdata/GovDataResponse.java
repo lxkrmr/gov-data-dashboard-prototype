@@ -4,5 +4,5 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 
 import java.util.List;
 
-public record GovDataResponse(@JsonAlias("result") List<Organization> organizations) {
+public record GovDataResponse(@JsonAlias("result") List<GovDataOrganization> govDataOrganizations) {
 }

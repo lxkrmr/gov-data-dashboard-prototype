@@ -71,12 +71,12 @@ class GovDataClientTest {
 
         // then
         StepVerifier.create(result)
-                    .assertNext(o -> assertThat(o.organizations()).containsExactly(new Organization("Auswärtiges Amt",
-                                                                                                    "auswaertiges-amt",
-                                                                                                    7),
-                                                                                   new Organization("Berlin Open Data",
-                                                                                                    "berlin-open-data",
-                                                                                                    1291
+                    .assertNext(o -> assertThat(o.govDataOrganizations()).containsExactly(new GovDataOrganization("Auswärtiges Amt",
+                                                                                                                  "auswaertiges-amt",
+                                                                                                                  7),
+                                                                                          new GovDataOrganization("Berlin Open Data",
+                                                                                                                  "berlin-open-data",
+                                                                                                                  1291
                                                                                    )))
                     .verifyComplete();
     }

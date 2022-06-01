@@ -1,10 +1,9 @@
 package com.example.webclient.application;
 
-import com.example.webclient.application.in.ShowFederalMinistryDashboardUseCase;
-import com.example.webclient.application.out.LoadStatisticsPort;
-import com.example.webclient.domain.FederalMinistryDashboard;
-import com.example.webclient.domain.FederalMinistryWhitelistConfig;
-import com.example.webclient.domain.Statistic;
+import com.example.webclient.application.port.in.ShowFederalMinistryDashboardUseCase;
+import com.example.webclient.application.port.out.LoadFederalMinistryStatisticPort;
+import com.example.webclient.domain.FederalMinistryDepartments;
+import com.example.webclient.domain.FederalMinistryStatistic;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -13,27 +12,20 @@ import java.util.List;
 @Service
 public class LoadFederalMinistryDashboardService implements ShowFederalMinistryDashboardUseCase {
 
-    private final LoadStatisticsPort loadStatisticsPort;
+    private final LoadFederalMinistryStatisticPort loadFederalMinistryStatisticPort;
 
-    private final FederalMinistryWhitelistConfig federalMinistryWhitelistConfig;
 
-    public LoadFederalMinistryDashboardService(LoadStatisticsPort loadStatisticsPort, FederalMinistryWhitelistConfig federalMinistryWhitelistConfig) {
-        this.loadStatisticsPort = loadStatisticsPort;
-        this.federalMinistryWhitelistConfig = federalMinistryWhitelistConfig;
+    public LoadFederalMinistryDashboardService(LoadFederalMinistryStatisticPort loadFederalMinistryStatisticPort) {
+        this.loadFederalMinistryStatisticPort = loadFederalMinistryStatisticPort;
     }
 
     @Override
-    public Mono<FederalMinistryDashboard> show() {
+    public Mono<FederalMinistryDepartments> show() {
         // get the domain object
-        Mono<List<Statistic>> federalMinistryStatisticsMono = loadStatisticsPort.load();
+        Mono<List<FederalMinistryStatistic>> federalMinistryStatisticsMono = loadFederalMinistryStatisticPort.load();
 
         // perform the command
-        return federalMinistryStatisticsMono.map(statistics -> {
-            List<Statistic> federalMinistryStatistics = statistics.stream()
-                                                                  .filter(federalMinistryWhitelistConfig::isWhitelisted)
-                                                                  .toList();
-            return new FederalMinistryDashboard(federalMinistryStatistics);
-        });
+        return federalMinistryStatisticsMono.map(FederalMinistryDepartments::new);
         // persist the changes - not needed here
     }
 }
