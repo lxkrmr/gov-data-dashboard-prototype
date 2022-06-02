@@ -1,25 +1,30 @@
-# Gov data dashboard **prototype**
+# Prototype - GovData Dashboard
 
 Hello my friend,
 
-warning! 
-This is a prototype!
+this is my take on the coding challenge for Digital Service.
+You can find the challenge here:
 
-So yes - I did no TDD and I am not sorry as this prototype is meant to learn more about what I want to build
-and thus I will do quiet a lot mistakes.
+https://github.com/digitalservice4germany/backend-challenge
 
-Please look at this code with the right amount of expectations :)
+## The service in a nutshell
 
-## About the service
+Under the "Open Data Act" federal ministries in Germany should publish their data to GovData.de 
+and with this dashboard you can see how well they are doing.
 
-In germany fedral ministries have to publish their data by law, but few are doing it.
-This service provides a dashboard where one can see the amount of published data sets per federal ministry.
+Mine looks like this:
 
-## How to start
+![Service Screenshot](service-screenshot.png)
 
-As I am using gradle, you can use the gradle wrapper to start the application via the command line interface:
+## How to start the service
+
+After you have cloned / downloaded the repository - you can use the Gradle wrapper to start the service:
 
     ./gradlew bootRun
+
+And I think under Windows you can use
+
+    ./gradlew.bat bootRun
 
 Afterwards you can...
 
@@ -29,8 +34,12 @@ http://localhost:8080/
 
 (b) look at the dashboard data as json
 
-http://localhost:8080/api/v1/federal-ministry-dashboard
+http://localhost:8080/dashboard
 
-or (c) check out the list of all govDataResponse from gov data (not only felder ministries)
+(c) look at the same data but aggregated to departments
 
-http://localhost:8080/api/v1/govDataResponse
+http://localhost:8080/api/v1/federal-ministries
+
+and (d) look at even more (raw) data from GovData by visiting the organizations endpoint 
+
+http://localhost:8080/api/v1/organizations
