@@ -6,22 +6,18 @@
 <body>
 <div>
     <canvas id="all"></canvas>
-    <canvas id="foo"></canvas>
 </div>
 <script>
-  fetch('http://localhost:8080/api/v1/federal-ministry-dashboard')
+  fetch('http://localhost:8080/dashboard')
     .then(response => response.json())
     .then(responseData => {
-      const displayNames = responseData.statistics.map(statistics => statistics.displayName);
-      const numberOfPublishedDataSets = responseData.statistics.map(statistics => statistics.numberOfPublishedDataSets);
-
       const data = {
-        labels: displayNames,
+        labels: responseData.labels,
         datasets: [{
-          label: 'Number of published data sets to GovData by federal ministry',
+          label: responseData.title,
           backgroundColor: 'rgb(255, 99, 132)',
           borderColor: 'rgb(255, 99, 132)',
-          data: numberOfPublishedDataSets,
+          data: responseData.data,
         }]
       };
 
@@ -35,11 +31,6 @@
 
       const all = new Chart(
         document.getElementById('all'),
-        config
-      );
-
-      const foo = new Chart(
-        document.getElementById('foo'),
         config
       );
     }
