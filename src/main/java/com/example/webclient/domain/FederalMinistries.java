@@ -3,6 +3,7 @@ package com.example.webclient.domain;
 import java.util.List;
 import java.util.Objects;
 
+// TODO: Add test
 public class FederalMinistries {
 
     private final List<Department> departmentList;

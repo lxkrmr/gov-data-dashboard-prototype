@@ -17,6 +17,6 @@ public class FederalMinistriesController {
 
     @GetMapping("/api/v1/federal-ministries")
     public Mono<FederalMinistries> federalMinistries() {
-        return loadFederalMinistriesUseCase.show();
+        return loadFederalMinistriesUseCase.load();
     }
 }

@@ -5,5 +5,5 @@ import reactor.core.publisher.Mono;
 
 public interface LoadFederalMinistriesUseCase {
 
-    Mono<FederalMinistries> show();
+    Mono<FederalMinistries> load();
 }

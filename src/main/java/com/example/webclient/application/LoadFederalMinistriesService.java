@@ -19,7 +19,7 @@ public class LoadFederalMinistriesService implements LoadFederalMinistriesUseCas
     }
 
     @Override
-    public Mono<FederalMinistries> show() {
+    public Mono<FederalMinistries> load() {
         // get the domain object
         Mono<List<FederalMinistryStatistic>> federalMinistryStatisticsMono = loadFederalMinistryStatisticPort.load();
 
