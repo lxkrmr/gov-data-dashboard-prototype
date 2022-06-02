@@ -1,17 +1,9 @@
 package com.example.webclient.domain;
 
 import java.util.List;
-import java.util.Objects;
 
 // TODO: Add test
-public class FederalMinistries {
-
-    private final List<Department> departmentList;
-
-    private FederalMinistries(List<Department> departmentList) {
-        this.departmentList = departmentList;
-    }
-
+public record FederalMinistries(List<Department> departments) {
     public static FederalMinistries create(List<FederalMinistryStatistic> statistics) {
         List<Department> departmentsWithStatistics = initializeDepartments().stream()
                                                                             .map(department -> department.addIfPartOfDepartment(statistics))
@@ -76,26 +68,5 @@ public class FederalMinistries {
                        ernaehrungUndLandwirtschaft,
                        gesundheit,
                        verkehrUndDigitaleInfrastruktur);
-    }
-
-    public List<Department> getDepartmentList() {
-        return departmentList;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        FederalMinistries that = (FederalMinistries) o;
-        return departmentList.equals(that.departmentList);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(departmentList);
     }
 }
