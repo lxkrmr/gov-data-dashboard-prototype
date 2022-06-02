@@ -5,18 +5,32 @@ import lx.krmr.dashboard.domain.FederalMinistries;
 import lx.krmr.dashboard.domain.FederalMinistryStatistic;
 import lx.krmr.dashboard.domain.Superior;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.MessageSource;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
-import static lx.krmr.dashboard.adapter.in.web.DashboardConverter.DASHBOARD_TITLE;
+import static lx.krmr.dashboard.adapter.in.web.DashboardConverter.DASHBOARD_TITLE_KEY;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
 
 @SuppressWarnings({"SameParameterValue", "OptionalUsedAsFieldOrParameterType"})
+@ExtendWith(MockitoExtension.class)
 class DashboardConverterTest {
 
-    private final DashboardConverter converter = new DashboardConverter();
+    @Mock
+    private MessageSource messageSource;
+
+    @InjectMocks
+    private DashboardConverter converter;
 
     @Test
     void shouldReturnTotalOfPublishedDataSetsFromSuperiorAndSubordinates() {
@@ -25,52 +39,41 @@ class DashboardConverterTest {
         Map<String, Optional<FederalMinistryStatistic>> subordinates = givenSubordinateWithNumberOfPublishedDataSets(12);
 
         // when
-        DashboardResponse result = converter.convert(givenFederalMinistries(superior, subordinates));
+        DashboardResponse result = converter.convert(givenFederalMinistries(superior, subordinates), Locale.GERMAN);
 
         // then
         assertThat(result.data()).containsExactly(23);
     }
 
     @Test
-    void shouldUseDisplayNameOfSuperiorFederalMinistryStatisticAsLabel() {
+    void shouldGetLabelFromMessageSourceBySuperiorName() {
         // given
-        FederalMinistryStatistic federalMinistryStatistic = new FederalMinistryStatistic("<superior-display-name>",
-                                                                                         "<superior-name>",
-                                                                                         0);
-        Superior superior = givenSuperior("<superior-name>", Optional.of(federalMinistryStatistic));
+        Superior superior = givenSuperior("<superior-name>", Optional.empty());
+        given(messageSource.getMessage(eq("<superior-name>"), any(), any())).willReturn("<label-from-message-source>");
 
         // when
-        DashboardResponse result = converter.convert(givenFederalMinistries(superior, Map.of()));
+        DashboardResponse result = converter.convert(givenFederalMinistries(superior, Map.of()), Locale.GERMAN);
 
         // then
-        assertThat(result.labels()).containsExactly("<superior-display-name>");
-    }
-
-    @Test
-    void shouldUseSuperiorNameAsFallbackLabelIfFederalMinistryStatisticIsMissing() {
-        // given
-        Superior superior = givenSuperior("<superior-name>",Optional.empty());
-
-        // when
-        DashboardResponse result = converter.convert(givenFederalMinistries(superior, Map.of()));
-
-        // then
-        assertThat(result.labels()).containsExactly("<superior-name>");
+        assertThat(result.labels()).containsExactly("<label-from-message-source>");
     }
 
     @Test
     void shouldSetTitelOfDashboard() {
+        // given
+        given(messageSource.getMessage(eq(DASHBOARD_TITLE_KEY), any(), any())).willReturn("<title>");
+
         // when
-        DashboardResponse result = converter.convert(new FederalMinistries(List.of()));
+        DashboardResponse result = converter.convert(new FederalMinistries(List.of()), Locale.GERMAN);
 
         // then
-        assertThat(result.title()).isEqualTo(DASHBOARD_TITLE);
+        assertThat(result.title()).isEqualTo("<title>");
     }
 
     private Superior givenSuperiorWithNumberOfPublishedDataSets(int numberOfPublishedDataSets) {
         return givenSuperior("<superior-name>", Optional.of(new FederalMinistryStatistic("<superior-display-name>",
-                                                                          "<superior-name>",
-                                                                          numberOfPublishedDataSets)));
+                                                                                         "<superior-name>",
+                                                                                         numberOfPublishedDataSets)));
     }
 
     private Superior givenSuperior(String superiorName, Optional<FederalMinistryStatistic> maybeFederalMinistryStatistic) {

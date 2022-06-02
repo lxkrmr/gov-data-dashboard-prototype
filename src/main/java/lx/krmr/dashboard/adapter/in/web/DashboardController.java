@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+import java.util.Locale;
+
 @RestController
 public class DashboardController {
 
@@ -18,8 +20,8 @@ public class DashboardController {
     }
 
     @GetMapping("/dashboard")
-    public Mono<DashboardResponse> federalMinistries() {
+    public Mono<DashboardResponse> federalMinistries(Locale locale) {
         return loadFederalMinistriesUseCase.load()
-                                           .map(converter::convert);
+                                           .map(federalMinistries -> converter.convert(federalMinistries, locale));
     }
 }

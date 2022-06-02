@@ -14,6 +14,8 @@ import reactor.core.publisher.Mono;
 import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
@@ -37,7 +39,7 @@ class DashboardControllerTest {
                                                                     List.of("label1", "label2"),
                                                                     List.of(21, 42));
         given(loadFederalMinistriesUseCase.load()).willReturn(Mono.just(federalMinistries));
-        given(converter.convert(federalMinistries)).willReturn(dashboardResponse);
+        given(converter.convert(eq(federalMinistries), any())).willReturn(dashboardResponse);
 
         // when
         WebTestClient.ResponseSpec result = webTestClient.get()

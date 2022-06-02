@@ -3,29 +3,33 @@ package lx.krmr.dashboard.adapter.in.web;
 import lx.krmr.dashboard.domain.FederalMinistries;
 import lx.krmr.dashboard.domain.FederalMinistryStatistic;
 import lx.krmr.dashboard.domain.Superior;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class DashboardConverter {
 
-    public static final String DASHBOARD_TITLE = "Number of published data sets on govdata.de by federal ministry";
+    public static final String DASHBOARD_TITLE_KEY = "title";
+    private final MessageSource messageSource;
 
-    public DashboardResponse convert(FederalMinistries federalMinistries) {
+    public DashboardConverter(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+
+    public DashboardResponse convert(FederalMinistries federalMinistries, Locale locale) {
         List<DashboardLabelValuePair> dashboardLabelValuePairs = federalMinistries.departments()
                                                                                   .stream()
                                                                                   .map(department -> {
-                                                                                      String label = toLabel(department.superior());
+                                                                                      String label = fromMessageSource(department.superior()
+                                                                                                                                 .name(), locale);
                                                                                       int value = toValue(department.superior(), department.subordinates());
                                                                                       return new DashboardLabelValuePair(label, value);
                                                                                   })
                                                                                   .sorted(Comparator.comparingInt(DashboardLabelValuePair::value))
                                                                                   .toList();
-        return new DashboardResponse(DASHBOARD_TITLE,
+        return new DashboardResponse(fromMessageSource(DASHBOARD_TITLE_KEY, locale),
                                      dashboardLabelValuePairs.stream()
                                                              .map(DashboardLabelValuePair::label)
                                                              .toList(),
@@ -34,10 +38,8 @@ public class DashboardConverter {
                                                              .toList());
     }
 
-    private String toLabel(Superior superior) {
-        return superior.maybeStatistics()
-                       .map(FederalMinistryStatistic::displayName)
-                       .orElse(superior.name());
+    private String fromMessageSource(String key, Locale locale) {
+        return messageSource.getMessage(key, null, locale);
     }
 
     private int toValue(Superior superior,
