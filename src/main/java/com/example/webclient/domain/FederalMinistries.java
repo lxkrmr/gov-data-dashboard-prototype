@@ -2,7 +2,6 @@ package com.example.webclient.domain;
 
 import java.util.List;
 
-// TODO: Add test
 public record FederalMinistries(List<Department> departments) {
     public static FederalMinistries create(List<FederalMinistryStatistic> statistics) {
         List<Department> departmentsWithStatistics = initializeDepartments().stream()
