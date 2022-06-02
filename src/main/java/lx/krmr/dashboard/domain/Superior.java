@@ -41,4 +41,12 @@ public class Superior {
     public int hashCode() {
         return Objects.hash(name, maybeStatistics);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public Optional<FederalMinistryStatistic> getMaybeStatistics() {
+        return maybeStatistics;
+    }
 }
