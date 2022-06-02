@@ -10,13 +10,16 @@ public class DashboardController {
 
     private final LoadFederalMinistriesUseCase loadFederalMinistriesUseCase;
 
-    public DashboardController(LoadFederalMinistriesUseCase loadFederalMinistriesUseCase) {
+    private final DashboardConverter converter;
+
+    public DashboardController(LoadFederalMinistriesUseCase loadFederalMinistriesUseCase, DashboardConverter converter) {
         this.loadFederalMinistriesUseCase = loadFederalMinistriesUseCase;
+        this.converter = converter;
     }
 
     @GetMapping("/dashboard")
     public Mono<DashboardResponse> federalMinistries() {
         return loadFederalMinistriesUseCase.load()
-                .map(DashboardResponse::create);
+                                           .map(converter::convert);
     }
 }
