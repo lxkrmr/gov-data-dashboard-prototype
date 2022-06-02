@@ -18,9 +18,9 @@ class DepartmentTest {
                                               List.of("<first-subordinate>", "<second-subordinate>"));
 
         // then
-        assertThat(result.getSuperior()).isEqualTo(Map.of("<superior>", Optional.empty()));
-        assertThat(result.getSubordinates()).isEqualTo(Map.of("<first-subordinate>", Optional.empty(),
-                                                              "<second-subordinate>", Optional.empty()));
+        assertThat(result.superior()).isEqualTo(new Superior("<superior>"));
+        assertThat(result.subordinates()).isEqualTo(Map.of("<first-subordinate>", Optional.empty(),
+                                                           "<second-subordinate>", Optional.empty()));
     }
 
     @Test
@@ -30,8 +30,8 @@ class DepartmentTest {
                                               Collections.emptyList());
 
         // then
-        assertThat(result.getSuperior()).isEqualTo(Map.of("<superior>", Optional.empty()));
-        assertThat(result.getSubordinates()).isEqualTo(Collections.emptyMap());
+        assertThat(result.superior()).isEqualTo(new Superior("<superior>"));
+        assertThat(result.subordinates()).isEqualTo(Collections.emptyMap());
     }
 
     @Test
@@ -48,8 +48,8 @@ class DepartmentTest {
         Department result = department.addIfPartOfDepartment(List.of(statistic));
 
         // then
-        assertThat(result.getSuperior()
-                         .get(superiorNameIsStatisticName)).contains(statistic);
+        assertThat(result.superior()
+                         .maybeStatistics()).contains(statistic);
     }
 
     @Test
@@ -66,7 +66,7 @@ class DepartmentTest {
         Department result = department.addIfPartOfDepartment(List.of(statistic));
 
         // then
-        assertThat(result.getSubordinates()
+        assertThat(result.subordinates()
                          .get(subordinateNameIsStatisticName)).contains(statistic);
     }
 
@@ -75,12 +75,12 @@ class DepartmentTest {
         // given
         String superiorNameIsStatisticName = "<superior>";
         FederalMinistryStatistic statisticForSuperior = new FederalMinistryStatistic("<display-name>",
-                                                                          superiorNameIsStatisticName,
-                                                                          12);
+                                                                                     superiorNameIsStatisticName,
+                                                                                     12);
         String subordinateNameIsStatisticName = "<first-subordinate>";
         FederalMinistryStatistic statisticForSubordinate = new FederalMinistryStatistic("<display-name>",
-                                                                          subordinateNameIsStatisticName,
-                                                                          12);
+                                                                                        subordinateNameIsStatisticName,
+                                                                                        12);
         Department department = Department.create(superiorNameIsStatisticName,
                                                   List.of(subordinateNameIsStatisticName, "<second-subordinate>"));
 
@@ -88,9 +88,9 @@ class DepartmentTest {
         Department result = department.addIfPartOfDepartment(List.of(statisticForSuperior, statisticForSubordinate));
 
         // then
-        assertThat(result.getSuperior()
-                         .get(superiorNameIsStatisticName)).contains(statisticForSuperior);
-        assertThat(result.getSubordinates()
+        assertThat(result.superior()
+                         .maybeStatistics()).contains(statisticForSuperior);
+        assertThat(result.subordinates()
                          .get(subordinateNameIsStatisticName)).contains(statisticForSubordinate);
     }
 
@@ -107,9 +107,9 @@ class DepartmentTest {
         Department result = department.addIfPartOfDepartment(List.of(statistic));
 
         // then
-        assertThat(result.getSuperior()
-                         .values()).allMatch(Optional::isEmpty);
-        assertThat(result.getSubordinates()
+        assertThat(result.superior()
+                         .maybeStatistics()).isEmpty();
+        assertThat(result.subordinates()
                          .values()).allMatch(Optional::isEmpty);
     }
 }
