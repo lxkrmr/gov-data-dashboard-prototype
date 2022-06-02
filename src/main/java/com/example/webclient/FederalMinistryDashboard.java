@@ -7,10 +7,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @EnableConfigurationProperties(GovDataOrganisationWhitelistConfig.class)
 @SpringBootApplication
-public class WebclientApplication {
+public class FederalMinistryDashboard {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WebclientApplication.class, args);
+		SpringApplication.run(FederalMinistryDashboard.class, args);
 	}
 
 }
