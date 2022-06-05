@@ -43,3 +43,16 @@ http://localhost:8080/api/v1/federal-ministries
 and (d) look at even more (raw) data from GovData by visiting the organizations endpoint 
 
 http://localhost:8080/api/v1/organizations
+
+## Additional metrics
+
+If you are as curious as me,
+then maybe you want to have a look at additional metrics. 
+For this I introduced actuator and enabled the following endpoints:
+- health
+- info
+- metrics
+
+You can find the endpoints under:
+
+    localhost:8080/actuator

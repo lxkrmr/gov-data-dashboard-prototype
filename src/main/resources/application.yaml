@@ -27,3 +27,12 @@ govdata:
     - "mri"
     - "statistisches-bundesamt"
     - "zoll"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - metrics
+          - health
+          - info
