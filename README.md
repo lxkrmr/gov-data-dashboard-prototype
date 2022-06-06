@@ -55,4 +55,4 @@ For this I introduced actuator and enabled the following endpoints:
 
 You can find the endpoints under:
 
-    localhost:8080/actuator
+http://localhost:8080/actuator
