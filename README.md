@@ -26,6 +26,10 @@ And I think under Windows you can use
 
     ./gradlew.bat bootRun
 
+As an alternative you can also start the application via docker.
+
+    docker run -p 8080:8080 lxkrmr/gov-data-dashboard-prototype
+
 Afterwards you can...
 
 (a) visit the dashboard
