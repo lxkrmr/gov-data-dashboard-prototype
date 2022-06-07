@@ -1,4 +1,4 @@
-package lx.krmr.dashboard.domain;
+package lx.krmr.dashboard.domain.model.types;
 
 import java.util.HashMap;
 import java.util.List;

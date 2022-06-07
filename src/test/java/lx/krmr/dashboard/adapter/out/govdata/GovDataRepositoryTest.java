@@ -1,6 +1,8 @@
 package lx.krmr.dashboard.adapter.out.govdata;
 
-import lx.krmr.dashboard.domain.FederalMinistryStatistic;
+import lx.krmr.dashboard.adapter.out.govdata.model.types.GovDataOrganization;
+import lx.krmr.dashboard.adapter.out.govdata.model.types.GovDataResponse;
+import lx.krmr.dashboard.domain.model.types.FederalMinistryStatistic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

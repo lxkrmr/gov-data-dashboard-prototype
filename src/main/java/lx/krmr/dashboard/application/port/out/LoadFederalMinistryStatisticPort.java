@@ -1,6 +1,6 @@
 package lx.krmr.dashboard.application.port.out;
 
-import lx.krmr.dashboard.domain.FederalMinistryStatistic;
+import lx.krmr.dashboard.domain.model.types.FederalMinistryStatistic;
 import reactor.core.publisher.Mono;
 
 import java.util.List;

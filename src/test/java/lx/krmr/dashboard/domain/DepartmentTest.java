@@ -1,5 +1,8 @@
 package lx.krmr.dashboard.domain;
 
+import lx.krmr.dashboard.domain.model.types.Department;
+import lx.krmr.dashboard.domain.model.types.FederalMinistryStatistic;
+import lx.krmr.dashboard.domain.model.types.Superior;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package lx.krmr.dashboard.adapter.in.web;
+package lx.krmr.dashboard.adapter.in.web.model.types;
 
 import java.util.List;
 

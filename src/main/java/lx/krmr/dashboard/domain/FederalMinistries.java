@@ -1,5 +1,8 @@
 package lx.krmr.dashboard.domain;
 
+import lx.krmr.dashboard.domain.model.types.Department;
+import lx.krmr.dashboard.domain.model.types.FederalMinistryStatistic;
+
 import java.util.List;
 
 public record FederalMinistries(List<Department> departments) {

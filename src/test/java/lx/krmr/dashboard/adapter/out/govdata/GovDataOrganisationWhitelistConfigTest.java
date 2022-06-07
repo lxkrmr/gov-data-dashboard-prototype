@@ -1,5 +1,6 @@
 package lx.krmr.dashboard.adapter.out.govdata;
 
+import lx.krmr.dashboard.adapter.out.govdata.model.types.GovDataOrganization;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

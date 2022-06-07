@@ -1,7 +1,7 @@
 package lx.krmr.dashboard.adapter.out.govdata;
 
 import lx.krmr.dashboard.application.port.out.LoadFederalMinistryStatisticPort;
-import lx.krmr.dashboard.domain.FederalMinistryStatistic;
+import lx.krmr.dashboard.domain.model.types.FederalMinistryStatistic;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 

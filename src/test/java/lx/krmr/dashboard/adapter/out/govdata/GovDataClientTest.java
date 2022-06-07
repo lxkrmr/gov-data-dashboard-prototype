@@ -1,5 +1,7 @@
 package lx.krmr.dashboard.adapter.out.govdata;
 
+import lx.krmr.dashboard.adapter.out.govdata.model.types.GovDataOrganization;
+import lx.krmr.dashboard.adapter.out.govdata.model.types.GovDataResponse;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;

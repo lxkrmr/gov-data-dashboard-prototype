@@ -1,4 +1,4 @@
-package lx.krmr.dashboard.domain;
+package lx.krmr.dashboard.domain.model.types;
 
 public record FederalMinistryStatistic(String displayName,
                                        String name,

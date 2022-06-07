@@ -1,9 +1,10 @@
 package lx.krmr.dashboard.adapter.in.web;
 
-import lx.krmr.dashboard.domain.Department;
+import lx.krmr.dashboard.adapter.in.web.model.types.DashboardResponse;
+import lx.krmr.dashboard.domain.model.types.Department;
 import lx.krmr.dashboard.domain.FederalMinistries;
-import lx.krmr.dashboard.domain.FederalMinistryStatistic;
-import lx.krmr.dashboard.domain.Superior;
+import lx.krmr.dashboard.domain.model.types.FederalMinistryStatistic;
+import lx.krmr.dashboard.domain.model.types.Superior;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

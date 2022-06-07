@@ -3,7 +3,7 @@ package lx.krmr.dashboard.application;
 import lx.krmr.dashboard.application.port.in.LoadFederalMinistriesUseCase;
 import lx.krmr.dashboard.domain.FederalMinistries;
 import lx.krmr.dashboard.application.port.out.LoadFederalMinistryStatisticPort;
-import lx.krmr.dashboard.domain.FederalMinistryStatistic;
+import lx.krmr.dashboard.domain.model.types.FederalMinistryStatistic;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 

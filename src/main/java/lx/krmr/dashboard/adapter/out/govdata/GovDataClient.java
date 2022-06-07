@@ -1,5 +1,6 @@
 package lx.krmr.dashboard.adapter.out.govdata;
 
+import lx.krmr.dashboard.adapter.out.govdata.model.types.GovDataResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
