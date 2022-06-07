@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+// FYI: Can't be converted to a record as Mockito isn't able to mock a static object
 @Component
 public class DashboardConverter {
 

@@ -7,13 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-public class OrganizationsController {
-
-    private GovDataClient govDataClient;
-
-    public OrganizationsController(GovDataClient govDataClient) {
-        this.govDataClient = govDataClient;
-    }
+public record OrganizationsController(GovDataClient govDataClient) {
 
     @GetMapping("/api/v1/organizations")
     public Mono<GovDataResponse> organizations() {
