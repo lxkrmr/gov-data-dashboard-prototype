@@ -1,5 +1,4 @@
 package lx.krmr.dashboard.domain.model.types;
 
-public record FederalMinistryStatistic(String displayName,
-                                       String name,
+public record FederalMinistryStatistic(String name,
                                        int numberOfPublishedDataSets) { }

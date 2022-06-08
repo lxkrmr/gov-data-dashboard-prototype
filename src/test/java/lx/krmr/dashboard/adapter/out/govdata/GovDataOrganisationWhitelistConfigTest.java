@@ -14,8 +14,7 @@ class GovDataOrganisationWhitelistConfigTest {
         // given
         String organizationName = "<whitelisted-organization>";
         GovDataOrganisationWhitelistConfig config = new GovDataOrganisationWhitelistConfig(List.of(organizationName));
-        GovDataOrganization organization = new GovDataOrganization("<any>",
-                                                                   organizationName,
+        GovDataOrganization organization = new GovDataOrganization(organizationName,
                                                                    0);
 
         // when
@@ -29,8 +28,7 @@ class GovDataOrganisationWhitelistConfigTest {
     void shouldRecognizeOrganisationAsNotWhitelisted() {
         // given
         GovDataOrganisationWhitelistConfig config = new GovDataOrganisationWhitelistConfig(List.of("<whitelisted-organization>"));
-        GovDataOrganization organization = new GovDataOrganization("<any>",
-                                                                   "<not-whitelisted-organization>",
+        GovDataOrganization organization = new GovDataOrganization("<not-whitelisted-organization>",
                                                                    0);
 
         // when

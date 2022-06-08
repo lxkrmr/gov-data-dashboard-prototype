@@ -72,8 +72,7 @@ class DashboardConverterTest {
     }
 
     private Superior givenSuperiorWithNumberOfPublishedDataSets(int numberOfPublishedDataSets) {
-        return givenSuperior("<superior-name>", Optional.of(new FederalMinistryStatistic("<superior-display-name>",
-                                                                                         "<superior-name>",
+        return givenSuperior("<superior-name>", Optional.of(new FederalMinistryStatistic("<superior-name>",
                                                                                          numberOfPublishedDataSets)));
     }
 
@@ -82,8 +81,7 @@ class DashboardConverterTest {
     }
 
     private Map<String, Optional<FederalMinistryStatistic>> givenSubordinateWithNumberOfPublishedDataSets(int numberOfPublishedDataSets) {
-        return Map.of("<subordinate-name>", Optional.of(new FederalMinistryStatistic("<subordinate-display-name>",
-                                                                                     "<subordinate-name>",
+        return Map.of("<subordinate-name>", Optional.of(new FederalMinistryStatistic("<subordinate-name>",
                                                                                      numberOfPublishedDataSets)));
     }
 

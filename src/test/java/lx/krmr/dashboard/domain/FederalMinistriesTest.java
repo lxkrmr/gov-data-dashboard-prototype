@@ -85,8 +85,7 @@ class FederalMinistriesTest {
     @Test
     void shouldUpdateStatistics() {
         // given
-        FederalMinistryStatistic federalMinistryStatistic = new FederalMinistryStatistic("Auswärtiges Amt",
-                                                                                         "auswaertiges-amt",
+        FederalMinistryStatistic federalMinistryStatistic = new FederalMinistryStatistic("auswaertiges-amt",
                                                                                          42);
 
         // when

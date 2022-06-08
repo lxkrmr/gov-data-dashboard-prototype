@@ -25,8 +25,7 @@ public class GovDataRepository implements LoadFederalMinistryStatisticPort {
                             .map(response -> response.govDataOrganizations()
                                                      .stream()
                                                      .filter(govDataOrganisationWhitelistConfig::isWhitelisted)
-                                                     .map(organization -> new FederalMinistryStatistic(organization.displayName(),
-                                                                                                       organization.name(),
+                                                     .map(organization -> new FederalMinistryStatistic(organization.name(),
                                                                                                        organization.packageCount())
                                                      )
                                                      .toList()

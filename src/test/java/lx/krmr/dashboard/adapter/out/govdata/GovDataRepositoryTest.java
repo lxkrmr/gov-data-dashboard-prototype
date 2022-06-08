@@ -35,11 +35,9 @@ class GovDataRepositoryTest {
     @Test
     void shouldLoadFederalMinistryStatistics() {
         // given
-        GovDataOrganization firstGovDataOrganization = new GovDataOrganization("<first-display-name>",
-                                                                               "<first-whitelisted-name>",
+        GovDataOrganization firstGovDataOrganization = new GovDataOrganization("<first-whitelisted-name>",
                                                                                1);
-        GovDataOrganization secondGovDataOrganization = new GovDataOrganization("<second-display-name>",
-                                                                                "<second-whitelisted-name>",
+        GovDataOrganization secondGovDataOrganization = new GovDataOrganization("<second-whitelisted-name>",
                                                                                 2);
         GovDataResponse govDataResponse = new GovDataResponse(List.of(firstGovDataOrganization, secondGovDataOrganization));
         given(govDataClientMock.getOrganizations()).willReturn(Mono.just(govDataResponse));
@@ -48,11 +46,9 @@ class GovDataRepositoryTest {
         Mono<List<FederalMinistryStatistic>> result = govDataRepository.load();
 
         // then
-        FederalMinistryStatistic firstFederalMinistryStatistic = new FederalMinistryStatistic(firstGovDataOrganization.displayName(),
-                                                                                              firstGovDataOrganization.name(),
+        FederalMinistryStatistic firstFederalMinistryStatistic = new FederalMinistryStatistic(firstGovDataOrganization.name(),
                                                                                               firstGovDataOrganization.packageCount());
-        FederalMinistryStatistic secondFederalMinistryStatistic = new FederalMinistryStatistic(secondGovDataOrganization.displayName(),
-                                                                                               secondGovDataOrganization.name(),
+        FederalMinistryStatistic secondFederalMinistryStatistic = new FederalMinistryStatistic(secondGovDataOrganization.name(),
                                                                                                secondGovDataOrganization.packageCount());
         StepVerifier.create(result)
                     .assertNext(statistics -> assertThat(statistics).containsExactly(firstFederalMinistryStatistic,
@@ -63,8 +59,7 @@ class GovDataRepositoryTest {
     @Test
     void shouldNotLoadFederalMinistryStatisticsIfGovDataOrganisationIsNotWhitelisted() {
         // given
-        GovDataOrganization govDataOrganization = new GovDataOrganization("<display-name>",
-                                                                          "<not-whitelisted-name>",
+        GovDataOrganization govDataOrganization = new GovDataOrganization("<not-whitelisted-name>",
                                                                           1);
         GovDataResponse govDataResponse = new GovDataResponse(List.of(govDataOrganization));
         given(govDataClientMock.getOrganizations()).willReturn(Mono.just(govDataResponse));

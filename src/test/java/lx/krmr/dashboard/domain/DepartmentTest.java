@@ -41,8 +41,7 @@ class DepartmentTest {
     void shouldAddStatisticIfSuperiorNameIsStatisticName() {
         // given
         String superiorNameIsStatisticName = "<superior>";
-        FederalMinistryStatistic statistic = new FederalMinistryStatistic("<display-name>",
-                                                                          superiorNameIsStatisticName,
+        FederalMinistryStatistic statistic = new FederalMinistryStatistic(superiorNameIsStatisticName,
                                                                           12);
         Department department = Department.create(superiorNameIsStatisticName,
                                                   List.of("<first-subordinate>", "<second-subordinate>"));
@@ -59,8 +58,7 @@ class DepartmentTest {
     void shouldAddStatisticIfSubordinateNameIsStatisticName() {
         // given
         String subordinateNameIsStatisticName = "<first-subordinate>";
-        FederalMinistryStatistic statistic = new FederalMinistryStatistic("<display-name>",
-                                                                          subordinateNameIsStatisticName,
+        FederalMinistryStatistic statistic = new FederalMinistryStatistic(subordinateNameIsStatisticName,
                                                                           12);
         Department department = Department.create("<superior>",
                                                   List.of(subordinateNameIsStatisticName, "<second-subordinate>"));
@@ -77,12 +75,10 @@ class DepartmentTest {
     void shouldAddStatistics() {
         // given
         String superiorNameIsStatisticName = "<superior>";
-        FederalMinistryStatistic statisticForSuperior = new FederalMinistryStatistic("<display-name>",
-                                                                                     superiorNameIsStatisticName,
+        FederalMinistryStatistic statisticForSuperior = new FederalMinistryStatistic(superiorNameIsStatisticName,
                                                                                      12);
         String subordinateNameIsStatisticName = "<first-subordinate>";
-        FederalMinistryStatistic statisticForSubordinate = new FederalMinistryStatistic("<display-name>",
-                                                                                        subordinateNameIsStatisticName,
+        FederalMinistryStatistic statisticForSubordinate = new FederalMinistryStatistic(subordinateNameIsStatisticName,
                                                                                         12);
         Department department = Department.create(superiorNameIsStatisticName,
                                                   List.of(subordinateNameIsStatisticName, "<second-subordinate>"));
@@ -100,8 +96,7 @@ class DepartmentTest {
     @Test
     void shouldNotAddStatisticIfNeitherSuperiorNameNorSubordinateNameIsStatisticName() {
         // given
-        FederalMinistryStatistic statistic = new FederalMinistryStatistic("<display-name>",
-                                                                          "<name-is-not-matching>",
+        FederalMinistryStatistic statistic = new FederalMinistryStatistic("<name-is-not-matching>",
                                                                           12);
         Department department = Department.create("<superior>",
                                                   List.of("<first-subordinate>", "<second-subordinate>"));
