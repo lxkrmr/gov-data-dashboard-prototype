@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,8 +21,8 @@ class DepartmentTest {
 
         // then
         assertThat(result.superior()).isEqualTo(new Superior("<superior>"));
-        assertThat(result.subordinates()).isEqualTo(Map.of("<first-subordinate>", Optional.empty(),
-                                                           "<second-subordinate>", Optional.empty()));
+        assertThat(result.subordinates()).isEqualTo(Map.of("<first-subordinate>", new FederalMinistryStatistic("<first-subordinate>", 0),
+                                                           "<second-subordinate>", new FederalMinistryStatistic("<second-subordinate>", 0)));
     }
 
     @Test
@@ -51,7 +50,7 @@ class DepartmentTest {
 
         // then
         assertThat(result.superior()
-                         .maybeStatistics()).contains(statistic);
+                         .statistic()).isEqualTo(statistic);
     }
 
     @Test
@@ -68,7 +67,7 @@ class DepartmentTest {
 
         // then
         assertThat(result.subordinates()
-                         .get(subordinateNameIsStatisticName)).contains(statistic);
+                         .get(subordinateNameIsStatisticName)).isEqualTo(statistic);
     }
 
     @Test
@@ -88,9 +87,9 @@ class DepartmentTest {
 
         // then
         assertThat(result.superior()
-                         .maybeStatistics()).contains(statisticForSuperior);
+                         .statistic()).isEqualTo(statisticForSuperior);
         assertThat(result.subordinates()
-                         .get(subordinateNameIsStatisticName)).contains(statisticForSubordinate);
+                         .get(subordinateNameIsStatisticName)).isEqualTo(statisticForSubordinate);
     }
 
     @Test
@@ -106,8 +105,11 @@ class DepartmentTest {
 
         // then
         assertThat(result.superior()
-                         .maybeStatistics()).isEmpty();
+                         .statistic()).extracting(FederalMinistryStatistic::numberOfPublishedDataSets)
+                                      .isEqualTo(0);
         assertThat(result.subordinates()
-                         .values()).allMatch(Optional::isEmpty);
+                         .values())
+                .extracting(FederalMinistryStatistic::numberOfPublishedDataSets)
+                .allMatch(numberOfPublishedDataSets -> numberOfPublishedDataSets == 0);
     }
 }

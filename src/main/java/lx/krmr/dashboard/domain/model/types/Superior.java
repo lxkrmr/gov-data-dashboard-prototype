@@ -1,9 +1,7 @@
 package lx.krmr.dashboard.domain.model.types;
 
-import java.util.Optional;
-
-public record Superior(String name, Optional<FederalMinistryStatistic> maybeStatistics) {
+public record Superior(String name, FederalMinistryStatistic statistic) {
     public Superior(String name) {
-        this(name, Optional.empty());
+        this(name, new FederalMinistryStatistic(name, 0));
     }
 }

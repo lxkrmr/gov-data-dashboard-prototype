@@ -3,15 +3,15 @@ package lx.krmr.dashboard.domain.model.types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-public record Department(Superior superior, Map<String, Optional<FederalMinistryStatistic>> subordinates) {
+public record Department(Superior superior, Map<String, FederalMinistryStatistic> subordinates) {
 
     public static Department create(String superiorName, List<String> subordinateNames) {
         return new Department(new Superior(superiorName),
                               subordinateNames.stream()
-                                              .collect(Collectors.toMap(subordinateName -> subordinateName, v -> Optional.empty())));
+                                              .collect(Collectors.toMap(subordinateName -> subordinateName,
+                                                                        subordinateName -> new FederalMinistryStatistic(subordinateName, 0))));
     }
 
     public static Department create(String superiorName) {
@@ -27,12 +27,12 @@ public record Department(Superior superior, Map<String, Optional<FederalMinistry
 
     private Department addIfPartOfDepartment(FederalMinistryStatistic statistic) {
         if (matchesSuperior(statistic)) {
-            Superior updatedSuperior = new Superior(statistic.name(), Optional.of(statistic));
+            Superior updatedSuperior = new Superior(statistic.name(), statistic);
             return new Department(updatedSuperior, this.subordinates());
         }
 
         if (matchesSubordinate(statistic)) {
-            subordinates.put(statistic.name(), Optional.of(statistic));
+            subordinates.put(statistic.name(), statistic);
             return this;
         }
 
@@ -50,17 +50,17 @@ public record Department(Superior superior, Map<String, Optional<FederalMinistry
 
     private Department combinePresentStatistics(Department one, Department two) {
         Superior superior = pickSuperiorWithStatistic(one.superior(), two.superior());
-        Map<String, Optional<FederalMinistryStatistic>> subordinates = pickSubordinateWithMostStatistics(one.subordinates(), two.subordinates());
+        Map<String, FederalMinistryStatistic> subordinates = pickSubordinateWithMostStatistics(one.subordinates(), two.subordinates());
         return new Department(superior, subordinates);
     }
 
-    private Map<String, Optional<FederalMinistryStatistic>> pickSubordinateWithMostStatistics(Map<String, Optional<FederalMinistryStatistic>> one,
-                                                                                              Map<String, Optional<FederalMinistryStatistic>> two) {
+    private Map<String, FederalMinistryStatistic> pickSubordinateWithMostStatistics(Map<String, FederalMinistryStatistic> one,
+                                                                                    Map<String, FederalMinistryStatistic> two) {
         return one.size() > two.size() ? one : two;
     }
 
     private Superior pickSuperiorWithStatistic(Superior one, Superior two) {
-        return one.maybeStatistics()
-                  .isPresent() ? one : two;
+        return one.statistic()
+                  .numberOfPublishedDataSets() > 0 ? one : two;
     }
 }

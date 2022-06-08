@@ -8,7 +8,10 @@ import lx.krmr.dashboard.domain.model.types.Superior;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 // FYI: Can't be converted to a record as Mockito isn't able to mock a static object
 @Component
@@ -46,15 +49,10 @@ public class DashboardConverter {
     }
 
     private int toValue(Superior superior,
-                        Map<String, Optional<FederalMinistryStatistic>> subordinates) {
-        Integer superiorNumberOfPublishedDataSets = superior.maybeStatistics()
-                                                            .map(FederalMinistryStatistic::numberOfPublishedDataSets)
-                                                            .orElse(0);
-
+                        Map<String, FederalMinistryStatistic> subordinates) {
+        Integer superiorNumberOfPublishedDataSets = superior.statistic().numberOfPublishedDataSets();
         Integer subordinatesNumberOfPublishedDataSets = subordinates.values()
                                                                     .stream()
-                                                                    .filter(Optional::isPresent)
-                                                                    .map(Optional::get)
                                                                     .map(FederalMinistryStatistic::numberOfPublishedDataSets)
                                                                     .reduce(0, Integer::sum);
         return superiorNumberOfPublishedDataSets + subordinatesNumberOfPublishedDataSets;

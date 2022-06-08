@@ -6,9 +6,6 @@ import lx.krmr.dashboard.domain.model.types.Superior;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Predicate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,8 +35,9 @@ class FederalMinistriesTest {
                                            "bmdv");
         // and
         assertThat(result.departments()).extracting(Department::superior)
-                                        .extracting(Superior::maybeStatistics)
-                                        .allMatch(Optional::isEmpty);
+                                        .extracting(Superior::statistic)
+                                        .extracting(FederalMinistryStatistic::numberOfPublishedDataSets)
+                                        .allMatch(numberOfPublishedDataSets -> numberOfPublishedDataSets == 0);
     }
 
     @Test
@@ -48,15 +46,12 @@ class FederalMinistriesTest {
         FederalMinistries result = FederalMinistries.create(List.of());
 
         // then
-        List<Map<String, Optional<FederalMinistryStatistic>>> notEmptySubordinates = result.departments()
-                                                                                           .stream()
-                                                                                           .map(Department::subordinates)
-                                                                                           .filter(Predicate.not(Map::isEmpty))
-                                                                                           .toList();
-        List<String> subordinateNames = notEmptySubordinates.stream()
-                                                            .flatMap(map -> map.keySet()
-                                                                               .stream())
-                                                            .toList();
+        List<String> subordinateNames = result.departments()
+                                              .stream()
+                                              .map(Department::subordinates)
+                                              .flatMap(map -> map.keySet()
+                                                                 .stream())
+                                              .toList();
         assertThat(subordinateNames).containsExactlyInAnyOrder("bundesamt-fur-justiz",
                                                                "dpma",
                                                                "bzst",
@@ -75,11 +70,14 @@ class FederalMinistriesTest {
                                                                "bas",
                                                                "mcloud");
         // and
-        List<Optional<FederalMinistryStatistic>> subordinateStatistics = notEmptySubordinates.stream()
-                                                                                             .flatMap(map -> map.values()
-                                                                                                                .stream())
-                                                                                             .toList();
-        assertThat(subordinateStatistics).allMatch(Optional::isEmpty);
+        List<Integer> subordinateNumberOfPublishedDataSets = result.departments()
+                                                                   .stream()
+                                                                   .map(Department::subordinates)
+                                                                   .flatMap(map -> map.values()
+                                                                                      .stream())
+                                                                   .map(FederalMinistryStatistic::numberOfPublishedDataSets)
+                                                                   .toList();
+        assertThat(subordinateNumberOfPublishedDataSets).allMatch(numberOfPublishedDataSets -> numberOfPublishedDataSets == 0);
     }
 
     @Test
@@ -94,7 +92,7 @@ class FederalMinistriesTest {
         // then
         assertThat(result.departments()).first()
                                         .extracting(Department::superior)
-                                        .extracting(Superior::maybeStatistics)
-                                        .isEqualTo(Optional.of(federalMinistryStatistic));
+                                        .extracting(Superior::statistic)
+                                        .isEqualTo(federalMinistryStatistic);
     }
 }
